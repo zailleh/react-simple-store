@@ -1,0 +1,18 @@
+{
+  "name": "react-simple-store",
+  "version": "0.1.0",
+  "description": "Simple plug in state management for react",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/firebase/firebaseui-web-react.git"
+  },
+  "author": "Tim Caldwell",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.13.1"
+  }
+}
