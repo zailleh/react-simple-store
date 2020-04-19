@@ -7,7 +7,7 @@ Initialise a store on boot...
 ```js
 import ReactSimpleStore from 'react-simple-store';
 
-export default new ReactSimpleStore.Store({
+new ReactSimpleStore.Store({
   modules: {
     login: {
       namespaced: true, // if false, these will be assigned to global namespace
@@ -99,6 +99,52 @@ export default bindState(['todoItems'],
     )
   }
 )
+```
+
+## Notes on mutating state
+State cannot be mutated directly through the components by setting `this.state.todoItems = []` for example.
+
+If you want to alter something in the store, use a `mutation` or `action`.
+
+To do so, bind them in your class' constructor:
+```js
+import { bindState, bindMutations, bindActions } from 'react-simple-store';
+
+export default bindState(['todoItems'],
+  class ToDoList extends React.component {
+    constructor(props) {
+      super(props);
+
+      Object.assign(
+        this,
+        bindMutations(['SET_TODO_ITEMS']),
+        bindAction(['getTodoItems'])
+      )
+
+      this.state.loading = true;
+    }
+
+    componentDidMount() {
+      this.getTodoItems().then(() => (  // will asynchronously get todo items
+        this.state.loading = false;
+      ));
+    }
+
+    render() {
+      const listItems = this.state.todoItems.map(item => <li>{item.name}</li>)
+
+      return (
+        this.state.loading ? (
+          <div>Loading...</div>
+        ) : (
+          <ul>
+            { listItems }
+          </ul>
+        )
+      )
+    }
+  }
+);
 ```
 
 ## Using Namespaces
